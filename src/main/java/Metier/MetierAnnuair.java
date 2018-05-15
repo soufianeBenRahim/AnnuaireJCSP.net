@@ -15,9 +15,9 @@ import java.util.Properties;
  * @author Soufiane
  */
 public class MetierAnnuair {
-
-    public MetierAnnuair() {
-
+private Bdd GestionBdd;
+    public MetierAnnuair(Bdd _GestionBdd) {
+        GestionBdd=_GestionBdd;  
     }
 
    

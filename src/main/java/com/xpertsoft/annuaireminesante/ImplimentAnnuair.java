@@ -15,13 +15,12 @@ public class ImplimentAnnuair  extends UnicastRemoteObject implements IAnnuair{
     
     public ImplimentAnnuair() throws RemoteException{
         super();
-      
-        
     }
     @Override
-    public String Login(String Name, String Pass) throws RemoteException {
+    public boolean Login(String Name, String Pass) throws RemoteException {
         System.out.println( "Logni reussite Name "+Name+" pass "+Pass);
-        return "Logni reussite";
+        
+        return true;
     }
 
     @Override
@@ -41,5 +40,9 @@ public class ImplimentAnnuair  extends UnicastRemoteObject implements IAnnuair{
          System.out.println("GetIPUser "+Psudo);
          return "GetIPUser "+Psudo;
     }
+
+    @Override
+    public void Desconect(String Psudo, String Pass) throws RemoteException {
+     }
     
 }
