@@ -7,19 +7,46 @@ package Metier;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Soufiane
  */
 public class MetierAnnuair {
-private Bdd GestionBdd;
+
+    private Bdd GestionBdd;
+
     public MetierAnnuair(Bdd _GestionBdd) {
-        GestionBdd=_GestionBdd;  
+        GestionBdd = _GestionBdd;
     }
-
-   
-
+    public  String login(String Psudo,String Pass) {
+        ResultSet rs = GestionBdd.exec("SELECT * FROM NBUSER.CONTACTS where PSUDO='" + Psudo + "' "+"and PASSWORS='"+Pass+"'");
+        try {
+            rs.beforeFirst();
+            while (rs.next()) {
+                return rs.getString("PSUDO");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MetierAnnuair.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    public  String GetIPAdress(String Psudo) {
+        ResultSet rs = GestionBdd.exec("SELECT * FROM NBUSER.CONTACTS where PSUDO='" + Psudo + "'");
+        try {
+            rs.beforeFirst();
+            while (rs.next()) {
+                return rs.getString("IP");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MetierAnnuair.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
 }
