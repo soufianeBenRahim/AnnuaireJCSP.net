@@ -29,6 +29,7 @@ public class MetierAnnuair {
         try {
             rs.beforeFirst();
             while (rs.next()) {
+                GestionBdd.exec2("update NBUSER.CONTACTS set CONECTED=true where PSUDO='"+Psudo+"' and PASSWORS='"+Pass+"'");
                 return rs.getString("PSUDO");
             }
         } catch (SQLException ex) {
@@ -47,6 +48,9 @@ public class MetierAnnuair {
             Logger.getLogger(MetierAnnuair.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    public boolean desconnect(String psudo, String Pass){
+        return GestionBdd.exec2("update NBUSER.CONTACTS set CONECTED=false where PSUDO='"+psudo+"' and PASSWORS='"+Pass+"'");
     }
     
 }

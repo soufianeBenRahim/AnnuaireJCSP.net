@@ -42,6 +42,7 @@ static private Bdd gestionBdd = new Bdd();
             gestionBdd.deconnexion();
             gestionBdd.initialiserConnexion(file.getAbsolutePath());
             MetierAnnuair Metier=new MetierAnnuair(gestionBdd);
+            
             System.out.println("demarage de service annuaire ...");
             LocateRegistry.createRegistry(1099);
             ImplimentAnnuair Annuair=new ImplimentAnnuair();
