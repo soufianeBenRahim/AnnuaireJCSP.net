@@ -24,8 +24,8 @@ public ImplimentAnnuair() throws RemoteException{
     }
     @Override
     public boolean Login(String Name, String Pass) throws RemoteException {
-        System.out.println( "Logni reussite Name "+Name+" pass "+Pass);
-        Metier.login(Name, Pass);
+        System.out.println( "Logni Name "+Name+" pass "+Pass+" ressue");
+        System.out.println(" le nom trouvee est :"+Metier.login(Name, Pass));
         return true;
     }
 
@@ -37,9 +37,9 @@ public ImplimentAnnuair() throws RemoteException{
     }
 
     @Override
-    public void Desconect(String Psudo, String Pass) throws RemoteException {
+    public boolean Desconect(String Psudo, String Pass) throws RemoteException {
      System.out.println("desconnect user : "+Psudo+"  pass "+Pass);
-    Metier.desconnect(Psudo, Pass);
+    return Metier.desconnect(Psudo, Pass);
     }
     
 }
