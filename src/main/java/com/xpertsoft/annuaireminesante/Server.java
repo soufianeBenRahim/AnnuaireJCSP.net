@@ -44,9 +44,9 @@ static private Bdd gestionBdd = new Bdd();
             MetierAnnuair Metier=new MetierAnnuair(gestionBdd);
             
             System.out.println("demarage de service annuaire ...");
-            LocateRegistry.createRegistry(1099);
+            LocateRegistry.createRegistry(1090);
             ImplimentAnnuair Annuair=new ImplimentAnnuair(Metier);
-            Naming.rebind("rmi://localhost:1099/Annuair", Annuair);
+            Naming.rebind("rmi://localhost:1090/Annuair", Annuair);
             System.out.println(Annuair.toString());
             Scanner scn = new Scanner(System.in);
             System.out.println("Entre Exit pour terminer");
