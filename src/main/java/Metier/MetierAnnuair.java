@@ -27,6 +27,7 @@ public class MetierAnnuair {
     public  boolean login(String Psudo,String Pass) {
         ResultSet rs = GestionBdd.exec("SELECT * FROM NBUSER.CONTACTS where PSUDO='" + Psudo + "' "+"and PASSWORS='"+Pass+"'");
         try {
+            if(rs.equals(null)) return false;
             rs.beforeFirst();
             while (rs.next()) {
                 GestionBdd.exec2("update NBUSER.CONTACTS set CONECTED=true where PSUDO='"+Psudo+"' and PASSWORS='"+Pass+"'");
