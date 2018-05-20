@@ -1,13 +1,9 @@
 package com.xpertsoft.annuaireminesante;
 
-import Metier.Bdd;
 import Metier.MetierAnnuair;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Properties;
+
 
 /**
  *
@@ -25,8 +21,7 @@ public ImplimentAnnuair() throws RemoteException{
     @Override
     public boolean Login(String Name, String Pass) throws RemoteException {
         System.out.println( "Logni Name "+Name+" pass "+Pass+" ressue");
-        System.out.println(" le nom trouvee est :"+Metier.login(Name, Pass));
-        return true;
+        return Metier.login(Name, Pass);
     }
 
     @Override

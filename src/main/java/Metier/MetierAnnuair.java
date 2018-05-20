@@ -24,18 +24,18 @@ public class MetierAnnuair {
     public MetierAnnuair(Bdd _GestionBdd) {
         GestionBdd = _GestionBdd;
     }
-    public  String login(String Psudo,String Pass) {
+    public  boolean login(String Psudo,String Pass) {
         ResultSet rs = GestionBdd.exec("SELECT * FROM NBUSER.CONTACTS where PSUDO='" + Psudo + "' "+"and PASSWORS='"+Pass+"'");
         try {
             rs.beforeFirst();
             while (rs.next()) {
                 GestionBdd.exec2("update NBUSER.CONTACTS set CONECTED=true where PSUDO='"+Psudo+"' and PASSWORS='"+Pass+"'");
-                return rs.getString("PSUDO");
+                return true;
             }
         } catch (SQLException ex) {
             Logger.getLogger(MetierAnnuair.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return false;
     }
     public  String GetIPAdress(String Psudo) {
         ResultSet rs = GestionBdd.exec("SELECT * FROM NBUSER.CONTACTS where PSUDO='" + Psudo + "'");
@@ -50,7 +50,7 @@ public class MetierAnnuair {
         return null;
     }
     public boolean desconnect(String psudo, String Pass){
-        return GestionBdd.exec2("update NBUSER.CONTACTS set CONECTED=false where PSUDO='"+psudo+"' and PASSWORS='"+Pass+"'");
+        return GestionBdd.executUpdate("update NBUSER.CONTACTS set CONECTED=false where PSUDO='"+psudo+"' and PASSWORS='"+Pass+"'");
     }
     
 }

@@ -113,7 +113,16 @@ System.out.println("password"+propBD.getProperty("password"));
         return conn;
     }
 
-
+    public boolean executUpdate(String sql) {
+        try {
+            java.sql.Statement dbStat = conn.createStatement();
+            int b = dbStat.executeUpdate(sql);
+            return (b>0);
+        } catch (SQLException ex) {
+            Logger.getLogger(Bdd.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 
 
 
