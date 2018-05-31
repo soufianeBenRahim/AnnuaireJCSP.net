@@ -16,8 +16,13 @@
     <groupId>org.apache.derby</groupId>
     <artifactId>derbyclient</artifactId>
     <version>10.13.1.1</version>
+    
 </dependency>
-
+<dependency>
+    <groupId>org.codehaus.jcsp</groupId>
+    <artifactId>jcsp</artifactId>
+    <version>1.1-rc5</version>
+</dependency>
         </dependencies>
    
 
