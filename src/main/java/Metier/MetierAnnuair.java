@@ -38,18 +38,7 @@ public class MetierAnnuair {
         }
         return false;
     }
-    public  String GetIPAdress(String Psudo) {
-        ResultSet rs = GestionBdd.exec("SELECT * FROM NBUSER.CONTACTS where PSUDO='" + Psudo + "'");
-        try {
-            rs.beforeFirst();
-            while (rs.next()) {
-                return rs.getString("IP");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(MetierAnnuair.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
+
     public boolean desconnect(String psudo, String Pass){
         return GestionBdd.executUpdate("update NBUSER.CONTACTS set CONECTED=false where PSUDO='"+psudo+"' and PASSWORS='"+Pass+"'");
     }
