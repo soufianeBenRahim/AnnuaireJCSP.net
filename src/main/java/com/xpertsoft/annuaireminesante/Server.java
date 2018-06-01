@@ -144,8 +144,7 @@ public class Server {
     String connectChannelName = chatChanName + connectChannel;
     String getIPChannelName = chatChanName +getLocationChannel;
     NetAltingChannelInput connectIn = CNS.createNet2One(connectChannelName);
-    NetAltingChannelInput getIPIn = CNS.createNet2One(getIPChannelName);
     Metier=new MetierAnnuair(gestionBdd);
-    new ConnectionAuthenticator(connectIn,getIPIn,Metier).run();
+    new ConnectionAuthenticator(connectIn,Metier).run();
   }
 }

@@ -38,46 +38,42 @@ import org.jcsp.plugNplay.ProcessWrite;
  */
 public class ConnectionAuthenticator implements CSProcess {
 
-    NetAltingChannelInput connectIn;
-    NetAltingChannelInput getLocationIn;
+    NetChannelInput chanelIn;
+
     Hashtable hash;
     MetierAnnuair m;
 
-    public ConnectionAuthenticator(NetAltingChannelInput conect,NetAltingChannelInput getLocaton, MetierAnnuair _m) {
-        connectIn = conect;
-
-        getLocationIn = getLocaton;
+    public ConnectionAuthenticator(NetChannelInput in, MetierAnnuair _m) {
+        chanelIn = in;
         hash = new Hashtable();
         m = _m;
     }
 
     public void run() {
 
-        AltingChannelInput[] chans = {connectIn,  getLocationIn};
-        Alternative alt = new Alternative(chans);
-        while (true) {
-            switch (alt.priSelect()) {
+        Object o = chanelIn.read();
+
+        if (o instanceof Contact) {
+            Contact c = (Contact) o;
+            switch (c.getTypeRequist()) {
                 case 0:
-                    Object o = connectIn.read();
-   
-                    if (o instanceof Contact) {
-                         Contact c = (Contact) o;
-                        if(c.isConnect()){
-                            if (m.login(c.getPSUDO(), c.getPASSWORS())) {
-                            addOutputChannel(c);
-                        }
-                        }else{
-                            if (m.desconnect(c.getPSUDO(), c.getPASSWORS())) {
-                            removeOutputChannel(c);
-                        }
-                        }
-                    }
+                    Contact ContactToRequist=(Contact)hash.get(c.getPSUDO());
+                    c.getReturnChan().write(ContactToRequist.getReturnChan());
                     break;
                 case 1:
-                    Object o2 = getLocationIn.read();
-                    if (o2 instanceof Contact) {
-                        Contact c2 = (Contact) o2;
-                        c2.getReturnChan().write(hash.get((c2.getPSUDO())));
+                    if (m.login(c.getPSUDO(), c.getPASSWORS())) {
+                        addOutputChannel(c);
+                        c.getReturnChan().write(true);
+                    }else {
+                        c.getReturnChan().write(false);
+                    }
+                    break;
+                case 2:
+                    if (m.desconnect(c.getPSUDO(), c.getPASSWORS())) {
+                        removeOutputChannel(c);
+                        c.getReturnChan().write(true);
+                    }else{
+                        c.getReturnChan().write(false);
                     }
                     break;
             }

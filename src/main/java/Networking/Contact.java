@@ -17,11 +17,11 @@ public class Contact implements Serializable {
     }
 // pour la connection deconnection
 
-    public Contact(String PSUDO, String PASSWORS, ChannelOutput returnChan, boolean connect) {
+    public Contact(String PSUDO, String PASSWORS, ChannelOutput returnChan, int connect) {
         this.PSUDO = PSUDO;
         this.PASSWORS = PASSWORS;
         this.returnChan = returnChan;
-        this.connect = connect;
+        this.TypeRequist = connect;
     }
 
 // pour getLocation methode
@@ -29,20 +29,26 @@ public class Contact implements Serializable {
         this.PSUDO = PSUDO;
         this.PASSWORS = "";
         this.returnChan = returnChan;
-        this.connect = true;
+        this.TypeRequist = 0;
     }
+
+    public int getTypeRequist() {
+        return TypeRequist;
+    }
+
+    public void setTypeRequist(int TypeRequist) {
+        this.TypeRequist = TypeRequist;
+    }
+    public static final int GETLOCATION = 0;
+    public static final int CONNECT = 1;
+    public static final int DISCONNECT = 2;
+  
     private String PSUDO;
     private String PASSWORS;
     private ChannelOutput returnChan;
-    private boolean connect;
+    private int  TypeRequist;
 
-    public boolean isConnect() {
-        return connect;
-    }
 
-    public void setConnect(boolean connect) {
-        this.connect = connect;
-    }
 
     public String getPSUDO() {
         return PSUDO;
