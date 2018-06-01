@@ -50,33 +50,36 @@ public class ConnectionAuthenticator implements CSProcess {
     }
 
     public void run() {
+        while (true) {
 
-        Object o = chanelIn.read();
+            Object o = chanelIn.read();
 
-        if (o instanceof Contact) {
-            Contact c = (Contact) o;
-            switch (c.getTypeRequist()) {
-                case 0:
-                    Contact ContactToRequist=(Contact)hash.get(c.getPSUDO());
-                    c.getReturnChan().write(ContactToRequist.getReturnChan());
-                    break;
-                case 1:
-                    if (m.login(c.getPSUDO(), c.getPASSWORS())) {
-                        addOutputChannel(c);
-                        c.getReturnChan().write(true);
-                    }else {
-                        c.getReturnChan().write(false);
-                    }
-                    break;
-                case 2:
-                    if (m.desconnect(c.getPSUDO(), c.getPASSWORS())) {
-                        removeOutputChannel(c);
-                        c.getReturnChan().write(true);
-                    }else{
-                        c.getReturnChan().write(false);
-                    }
-                    break;
+            if (o instanceof Contact) {
+                Contact c = (Contact) o;
+                switch (c.getTypeRequist()) {
+                    case 0:
+                        Contact ContactToRequist = (Contact) hash.get(c.getPSUDO());
+                        c.getReturnChan().write(ContactToRequist.getReturnChan());
+                        break;
+                    case 1:
+                        if (m.login(c.getPSUDO(), c.getPASSWORS())) {
+                            addOutputChannel(c);
+                            c.getReturnChan().write(true);
+                        } else {
+                            c.getReturnChan().write(false);
+                        }
+                        break;
+                    case 2:
+                        if (m.desconnect(c.getPSUDO(), c.getPASSWORS())) {
+                            removeOutputChannel(c);
+                            c.getReturnChan().write(true);
+                        } else {
+                            c.getReturnChan().write(false);
+                        }
+                        break;
+                }
             }
+
         }
     }
 
