@@ -52,7 +52,6 @@ public class Server {
     static private JFileChooser bddChooser = new JFileChooser(".");
     static  private FileFilter datFilter = null;
     private static final String connectChannel = ".client2serverconnect";
-    private static final String getLocationChannel = ".client2serverGetLocation";
     
   public static void main(String[] args) throws java.io.IOException {
     MetierAnnuair Metier;
@@ -142,7 +141,6 @@ public class Server {
       td.height);
     serverFrame.setVisible(true);
     String connectChannelName = chatChanName + connectChannel;
-    String getIPChannelName = chatChanName +getLocationChannel;
     NetAltingChannelInput connectIn = CNS.createNet2One(connectChannelName);
     Metier=new MetierAnnuair(gestionBdd);
     new ConnectionAuthenticator(connectIn,Metier).run();
