@@ -52,9 +52,7 @@ public class Server {
     static private JFileChooser bddChooser = new JFileChooser(".");
     static  private FileFilter datFilter = null;
     private static final String connectChannel = ".client2serverconnect";
-    private static final String desconectChannel = ".client2serverdesconnect";
-    private static final String getIPChannel =
-    ".client2serverGetIP";
+    private static final String getLocationChannel = ".client2serverGetLocation";
     
   public static void main(String[] args) throws java.io.IOException {
     MetierAnnuair Metier;
@@ -143,10 +141,8 @@ public class Server {
       td.width,
       td.height);
     serverFrame.setVisible(true);
-
     String connectChannelName = chatChanName + connectChannel;
-    String desconectChannelName = chatChanName +desconectChannel;
-    String getIPChannelName = chatChanName +getIPChannel;
+    String getIPChannelName = chatChanName +getLocationChannel;
     NetAltingChannelInput connectIn = CNS.createNet2One(connectChannelName);
     NetAltingChannelInput getIPIn = CNS.createNet2One(getIPChannelName);
     Metier=new MetierAnnuair(gestionBdd);

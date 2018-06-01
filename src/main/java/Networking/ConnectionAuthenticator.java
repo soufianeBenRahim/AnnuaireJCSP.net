@@ -27,7 +27,6 @@ package Networking;
 //                                                                  //
 //                                                                  //
 //////////////////////////////////////////////////////////////////////
-import Metier.Contact;
 import Metier.MetierAnnuair;
 import org.jcsp.lang.*;
 import org.jcsp.net.*;
