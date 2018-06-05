@@ -1,12 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Networking;
 
 import java.io.Serializable;
-import org.jcsp.lang.ChannelOutput;
+import org.jcsp.net2.tcpip.TCPIPNodeAddress;
+
+
 
 /**
  *
@@ -17,18 +14,18 @@ public class Contact implements Serializable {
     }
 // pour la connection deconnection
 
-    public Contact(String PSUDO, String PASSWORS, ChannelOutput returnChan, int connect) {
+    public Contact(String PSUDO, String PASSWORS, TCPIPNodeAddress returnChan, int connect) {
         this.PSUDO = PSUDO;
         this.PASSWORS = PASSWORS;
-        this.returnChan = returnChan;
+        this.NodAdress = returnChan;
         this.TypeRequist = connect;
     }
 
 // pour getLocation methode
-    public Contact(String PSUDO, ChannelOutput returnChan) {
+    public Contact(String PSUDO, TCPIPNodeAddress returnChan) {
         this.PSUDO = PSUDO;
         this.PASSWORS = "";
-        this.returnChan = returnChan;
+        this.NodAdress = returnChan;
         this.TypeRequist = 0;
     }
 
@@ -45,7 +42,7 @@ public class Contact implements Serializable {
   
     private String PSUDO;
     private String PASSWORS;
-    private ChannelOutput returnChan;
+    private TCPIPNodeAddress NodAdress;
     private int  TypeRequist;
 
 
@@ -66,12 +63,12 @@ public class Contact implements Serializable {
         this.PASSWORS = PASSWORS;
     }
 
-    public ChannelOutput getReturnChan() {
-        return returnChan;
+    public TCPIPNodeAddress getNodAdress() {
+        return NodAdress;
     }
 
-    public void setReturnChan(ChannelOutput returnChan) {
-        this.returnChan = returnChan;
+    public void setNodAdress(TCPIPNodeAddress NodAdress) {
+        this.NodAdress = NodAdress;
     }
 
 }

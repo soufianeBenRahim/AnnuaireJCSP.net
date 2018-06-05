@@ -31,17 +31,23 @@ package com.xpertsoft.annuaireminesante;
 
 import Networking.ConnectionAuthenticator;
 import Metier.*;
-import org.jcsp.lang.*;
-import org.jcsp.net.*;
-import java.net.*;
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
+import java.net.InetAddress;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.filechooser.FileFilter;
-import org.jcsp.net.tcpip.*;
-import org.jcsp.net.cns.*;
+
+import org.jcsp.lang.*; 
+import org.jcsp.net.NodeInitFailedException;
+  import org.jcsp.net2.*; 
+import org.jcsp.net2.bns.BNS;
+  import org.jcsp.net2.cns.*; 
+  import org.jcsp.net2.tcpip.*; 
 
 /**
  * @author Quickstone Technologies Limited
@@ -53,7 +59,7 @@ public class Server {
     static  private FileFilter datFilter = null;
     private static final String connectChannel = ".client2serverconnect";
     
-  public static void main(String[] args) throws java.io.IOException {
+  public static void main(String[] args) throws java.io.IOException, Exception {
     MetierAnnuair Metier;
     try{        
        bddChooser.addChoosableFileFilter(datFilter);
@@ -74,8 +80,9 @@ public class Server {
 
     //dialog is modal so this doesn't execute until it is closed
     String chatChanName = ssd.getChannelName();
-
+/*
     NodeKey key;
+  
     if (!(Node.getInstance().isInitialized())) {
       try {
         key =
@@ -102,6 +109,42 @@ public class Server {
       }
     }
 
+*/
+/*
+new Runnable() {
+        @Override
+        public void run() {
+      NodeKey key = null;    
+   NodeID localNodeID = null; 
+   //Initialize a Node that does not have a CNS client <br>
+   key = Node.getInstance().init(new TCPIPNodeAddress(7890));
+   new ProcessManager(CNS.getInstance()).start();
+   //Dedicated server code could stop here <br>
+   //Initialise the CNS client <br>
+   //use the local NodeID to connect to the CNS <br>
+   localNodeID = Node.getInstance().getNodeID();
+   CNS.initialise(localNodeID);
+   
+   //could now use these channels for something!! <br>
+   //but this is only a test so will terminate <br>
+   } 
+}; 
+*/
+
+
+  String connectChannelName = chatChanName + connectChannel;
+TCPIPNodeAddress addr = new TCPIPNodeAddress(4000);
+// Initialise Node
+Node.getInstance().init(addr);
+// Get IP of NodeServer
+
+TCPIPNodeAddress nsAddr = new TCPIPNodeAddress(InetAddress.getLocalHost().getHostAddress(), 7890);
+// Initialise CNS and BNS
+CNS.initialise(nsAddr);
+BNS.initialise(nsAddr);
+
+NetChannelInput in = CNS.net2one(connectChannelName);
+   
     JFrame serverFrame = new JFrame();
     String s =
       "Chat channel \""
@@ -140,9 +183,9 @@ public class Server {
       td.width,
       td.height);
     serverFrame.setVisible(true);
-    String connectChannelName = chatChanName + connectChannel;
-    NetAltingChannelInput connectIn = CNS.createNet2One(connectChannelName);
     Metier=new MetierAnnuair(gestionBdd);
-    new ConnectionAuthenticator(connectIn,Metier).run();
+        CSProcess[] processes = { new ConnectionAuthenticator(in,Metier) };
+        new Parallel(processes).run();
+
   }
 }
