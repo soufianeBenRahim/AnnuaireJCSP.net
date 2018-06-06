@@ -33,7 +33,6 @@ import org.jcsp.net2.*;
 import java.util.*;
 import org.jcsp.net2.tcpip.TCPIPNodeAddress;
 
-
 /**
  * @author Quickstone Technologies Limited
  */
@@ -43,6 +42,10 @@ public class ConnectionAuthenticator implements CSProcess {
 
     Hashtable hash;
     MetierAnnuair m;
+    private static final int CONNECT_SUCCES = 0;
+    private static final int CONNECT_FAILER = 1;
+    private static final int DESCONNECT_SUCCES = 2;
+    private static final int DESCONNECT_FAILER = 3;
 
     public ConnectionAuthenticator(NetChannelInput in, MetierAnnuair _m) {
         chanelIn = in;
@@ -57,29 +60,29 @@ public class ConnectionAuthenticator implements CSProcess {
 
             if (o instanceof Contact) {
                 Contact c = (Contact) o;
-                        NodeID remoteID =
-                        LinkFactory.getLink(c.getNodAdress()).getRemoteNodeID();
-                        NetChannelOutput out = NetChannel.one2net(remoteID, 46);
+                NodeID remoteID
+                        = LinkFactory.getLink(c.getNodAdress()).getRemoteNodeID();
+                NetChannelOutput out = NetChannel.one2net(remoteID, 46);
                 switch (c.getTypeRequist()) {
                     case Contact.GETLOCATION:
                         TCPIPNodeAddress Adress = (TCPIPNodeAddress) hash.get(c.getPSUDO());
-                        System.out.println("GetLocation recu de psudo :"+c.getPSUDO());
+                        System.out.println("GetLocation recu de psudo :" + c.getPSUDO());
                         out.write(new Contact(c.getPSUDO(), Adress));
                         break;
                     case Contact.CONNECT:
                         if (m.login(c.getPSUDO(), c.getPASSWORS())) {
                             addOutputAdress(c);
-                            out.write(true);
+                            out.write(CONNECT_SUCCES);
                         } else {
-                            out.write(false);
+                            out.write(CONNECT_FAILER);
                         }
                         break;
                     case Contact.DISCONNECT:
                         if (m.desconnect(c.getPSUDO(), c.getPASSWORS())) {
                             removeOutputAdress(c);
-                    //       out.write(true);
+                            out.write(DESCONNECT_SUCCES);
                         } else {
-                     //       c.getReturnChan().write(false);
+                            out.write(DESCONNECT_FAILER);
                         }
                         break;
                 }
@@ -89,13 +92,13 @@ public class ConnectionAuthenticator implements CSProcess {
     }
 
     private void addOutputAdress(Contact cb) {
-        System.out.println("add contact :"+cb.getPSUDO());
+        System.out.println("add contact :" + cb.getPSUDO());
         hash.put(cb.getPSUDO(), cb.getNodAdress());
     }
 
     private void removeOutputAdress(Contact cb) {
         System.out.println("removing outputchan " + cb.getPSUDO());
-     
+
         hash.remove(cb.getPSUDO());
         System.out.println("removed");
     }

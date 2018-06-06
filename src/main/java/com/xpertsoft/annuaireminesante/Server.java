@@ -36,8 +36,11 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.io.File;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.filechooser.FileFilter;
 
@@ -75,10 +78,12 @@ public class Server {
     } catch (Exception ex) {
             java.util.logging.Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
     } 
-    ServerSetupDialog ssd = new ServerSetupDialog();
+  //  ServerSetupDialog ssd = new ServerSetupDialog();
 
     //dialog is modal so this doesn't execute until it is closed
-    String chatChanName = ssd.getChannelName();
+    //String chatChanName = ssd.getChannelName();
+    
+    String chatChanName ="JCSPChatChannel";
 /*
     NodeKey key;
   
@@ -113,23 +118,15 @@ public class Server {
 new Runnable() {
         @Override
         public void run() {
-      NodeKey key = null;    
-   NodeID localNodeID = null; 
-   //Initialize a Node that does not have a CNS client <br>
-   key = Node.getInstance().init(new TCPIPNodeAddress(7890));
-   new ProcessManager(CNS.getInstance()).start();
-   //Dedicated server code could stop here <br>
-   //Initialise the CNS client <br>
-   //use the local NodeID to connect to the CNS <br>
-   localNodeID = Node.getInstance().getNodeID();
-   CNS.initialise(localNodeID);
-   
-   //could now use these channels for something!! <br>
-   //but this is only a test so will terminate <br>
+            try {
+                TCPIPNodeServer.main(new String[]{""});
+            } catch (Exception ex) {
+                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            }
    } 
-}; 
-*/
+}.run(); 
 
+*/
 
   String connectChannelName = chatChanName + connectChannel;
 TCPIPNodeAddress addr = new TCPIPNodeAddress(4000);
@@ -137,12 +134,7 @@ TCPIPNodeAddress addr = new TCPIPNodeAddress(4000);
 Node.getInstance().init(addr);
 // Get IP of NodeServer
 
-TCPIPNodeAddress nsAddr = new TCPIPNodeAddress(Node.getInstance().getNodeID().getNodeAddress().getAddress(), 7890);
-// Initialise CNS and BNS
-CNS.initialise(nsAddr);
-BNS.initialise(nsAddr);
 
-NetChannelInput in = CNS.net2one(connectChannelName);
    
     JFrame serverFrame = new JFrame();
     String s =
@@ -181,7 +173,30 @@ NetChannelInput in = CNS.net2one(connectChannelName);
       (d.height - td.height) / 2,
       td.width,
       td.height);
+       InetAddress[] Adress = InetAddress.getAllByName(InetAddress.getLocalHost().getHostName());
+     String[] AdressStr=new String[Adress.length];
+     for(int i=0;i<Adress.length;i++){
+     AdressStr[i]=Adress[i].getHostAddress();
+     }
+ 
+       JOptionPane jop = new JOptionPane(), jop2 = new JOptionPane();
+    String IP = (String)jop.showInputDialog(null, 
+      "Veuillez indiquer L'adress IP de l'ecoute !",
+      "IP info !",
+      JOptionPane.QUESTION_MESSAGE,
+      null,
+      AdressStr,
+      AdressStr[0]);
+   
+    TCPIPNodeAddress nsAddr = new TCPIPNodeAddress(IP, 7890);
+// Initialise CNS and BNS
+CNS.initialise(nsAddr);
+BNS.initialise(nsAddr);
     serverFrame.setVisible(true);
+   
+  
+
+NetChannelInput in = CNS.net2one(connectChannelName);
     Metier=new MetierAnnuair(gestionBdd);
         CSProcess[] processes = { new ConnectionAuthenticator(in,Metier) };
         new Parallel(processes).run();
