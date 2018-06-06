@@ -57,16 +57,16 @@ public class ConnectionAuthenticator implements CSProcess {
 
             if (o instanceof Contact) {
                 Contact c = (Contact) o;
-                switch (c.getTypeRequist()) {
-                    case Contact.GETLOCATION:
-                        TCPIPNodeAddress chan = (TCPIPNodeAddress) hash.get(c.getPSUDO());
-                        System.out.println("GetLocation recu de psudo :"+c.getPSUDO());
-                      //  chan.(chan);
-                        break;
-                    case Contact.CONNECT:
                         NodeID remoteID =
                         LinkFactory.getLink(c.getNodAdress()).getRemoteNodeID();
                         NetChannelOutput out = NetChannel.one2net(remoteID, 46);
+                switch (c.getTypeRequist()) {
+                    case Contact.GETLOCATION:
+                        TCPIPNodeAddress Adress = (TCPIPNodeAddress) hash.get(c.getPSUDO());
+                        System.out.println("GetLocation recu de psudo :"+c.getPSUDO());
+                        out.write(new Contact(c.getPSUDO(), Adress));
+                        break;
+                    case Contact.CONNECT:
                         if (m.login(c.getPSUDO(), c.getPASSWORS())) {
                             addOutputAdress(c);
                             out.write(true);
@@ -77,7 +77,7 @@ public class ConnectionAuthenticator implements CSProcess {
                     case Contact.DISCONNECT:
                         if (m.desconnect(c.getPSUDO(), c.getPASSWORS())) {
                             removeOutputAdress(c);
-                    //        c.getReturnChan().write(true);
+                    //       out.write(true);
                         } else {
                      //       c.getReturnChan().write(false);
                         }

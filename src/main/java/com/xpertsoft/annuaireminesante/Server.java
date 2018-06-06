@@ -36,14 +36,13 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
-import java.net.InetAddress;
+
 import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.swing.filechooser.FileFilter;
 
 import org.jcsp.lang.*; 
-import org.jcsp.net.NodeInitFailedException;
+
   import org.jcsp.net2.*; 
 import org.jcsp.net2.bns.BNS;
   import org.jcsp.net2.cns.*; 
@@ -138,7 +137,7 @@ TCPIPNodeAddress addr = new TCPIPNodeAddress(4000);
 Node.getInstance().init(addr);
 // Get IP of NodeServer
 
-TCPIPNodeAddress nsAddr = new TCPIPNodeAddress(InetAddress.getLocalHost().getHostAddress(), 7890);
+TCPIPNodeAddress nsAddr = new TCPIPNodeAddress(Node.getInstance().getNodeID().getNodeAddress().getAddress(), 7890);
 // Initialise CNS and BNS
 CNS.initialise(nsAddr);
 BNS.initialise(nsAddr);
