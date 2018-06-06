@@ -46,6 +46,7 @@ public class ConnectionAuthenticator implements CSProcess {
     private static final int CONNECT_FAILER = 1;
     private static final int DESCONNECT_SUCCES = 2;
     private static final int DESCONNECT_FAILER = 3;
+    private static final int USER_NOT_FOUND = 4;
 
     public ConnectionAuthenticator(NetChannelInput in, MetierAnnuair _m) {
         chanelIn = in;
@@ -65,9 +66,15 @@ public class ConnectionAuthenticator implements CSProcess {
                 NetChannelOutput out = NetChannel.one2net(remoteID, 46);
                 switch (c.getTypeRequist()) {
                     case Contact.GETLOCATION:
-                        TCPIPNodeAddress Adress = (TCPIPNodeAddress) hash.get(c.getPSUDO());
-                        System.out.println("GetLocation recu de psudo :" + c.getPSUDO());
-                        out.write(new Contact(c.getPSUDO(), Adress));
+                        Object Adress=hash.get(c.getPSUDO());
+                        if (Adress==null){
+                            out.write(USER_NOT_FOUND);
+                            System.out.println("Psudo :" + c.getPSUDO()+" Not found");
+                        }else{
+                            out.write(new Contact(c.getPSUDO(),(TCPIPNodeAddress) Adress));
+                            System.out.println("GetLocation recu de psudo :" + c.getPSUDO());
+                        }
+
                         break;
                     case Contact.CONNECT:
                         if (m.login(c.getPSUDO(), c.getPASSWORS())) {
