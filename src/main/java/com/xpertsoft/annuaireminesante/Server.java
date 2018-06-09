@@ -29,7 +29,7 @@ package com.xpertsoft.annuaireminesante;
     //////////////////////////////////////////////////////////////////////
 
 
-import Networking.ConnectionAuthenticator;
+import Networking.NetworkingAnnuaire;
 import Metier.*;
 
 import javax.swing.*;
@@ -198,7 +198,7 @@ BNS.initialise(nsAddr);
 
 NetChannelInput in = CNS.net2one(connectChannelName);
     Metier=new MetierAnnuair(gestionBdd);
-        CSProcess[] processes = { new ConnectionAuthenticator(in,Metier) };
+        CSProcess[] processes = { new NetworkingAnnuaire(in,Metier) };
         new Parallel(processes).run();
 
   }

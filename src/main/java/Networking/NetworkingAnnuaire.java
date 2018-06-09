@@ -36,7 +36,7 @@ import org.jcsp.net2.tcpip.TCPIPNodeAddress;
 /**
  * @author Quickstone Technologies Limited
  */
-public class ConnectionAuthenticator implements CSProcess {
+public class NetworkingAnnuaire implements CSProcess {
 
     NetChannelInput chanelIn;
 
@@ -48,7 +48,7 @@ public class ConnectionAuthenticator implements CSProcess {
     private static final int DESCONNECT_FAILER = 3;
     private static final int USER_NOT_FOUND = 4;
 
-    public ConnectionAuthenticator(NetChannelInput in, MetierAnnuair _m) {
+    public NetworkingAnnuaire(NetChannelInput in, MetierAnnuair _m) {
         chanelIn = in;
         hash = new Hashtable();
         m = _m;
