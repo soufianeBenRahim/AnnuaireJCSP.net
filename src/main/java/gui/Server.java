@@ -1,4 +1,4 @@
-package com.xpertsoft.annuaireminesante;
+package gui;
 
     //////////////////////////////////////////////////////////////////////
     //                                                                  //
